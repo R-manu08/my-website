@@ -122,6 +122,35 @@
     </footer>
 
     <script src="script.js"></script>
+
+    <!-- Cart UI -->
+    <div class="cart-floating-btn" onclick="toggleCart()">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count">0</span>
+    </div>
+
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <span class="close-cart" onclick="toggleCart()">&times;</span>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Items go here -->
+            <p style="text-align:center; margin-top: 2rem;">Your cart is empty.</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">₹0</span>
+            </div>
+            <textarea class="special-instructions" id="cartNote"
+                placeholder="Add a note (e.g., Happy Birthday Message)..." rows="3"></textarea>
+            <button class="btn" onclick="checkoutWhatsApp()"
+                style="width: 100%; display: flex; justify-content: center; align-items: center; gap: 10px;">
+                <i class="fab fa-whatsapp"></i> Order on WhatsApp
+            </button>
+        </div>
+    </div>
 </body>
 
 </html>
