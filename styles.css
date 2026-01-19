@@ -90,11 +90,13 @@ header {
 }
 
 /* Hero Section */
+/* Hero Section */
 .hero {
     height: 100vh;
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1580640664500-d834473d7425?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
-    background-size: cover;
-    background-position: center;
+    /* Background removed to show 3D Canvas */
+    background: transparent;
+    position: relative;
+    /* For absolute positioning of canvas */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -104,6 +106,8 @@ header {
     padding: 0 20px;
     margin-top: 60px;
     /* Offset for fixed header */
+    overflow: hidden;
+    /* Ensure 3D doesn't spill */
 }
 
 .hero h1 {
