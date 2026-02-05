@@ -10,86 +10,168 @@
     <style>
         .admin-layout {
             display: grid;
-            grid-template-columns: 250px 1fr;
+            grid-template-columns: 240px 1fr;
             min-height: 100vh;
         }
 
         .sidebar {
-            background: var(--primary-color);
+            background: var(--primary);
             color: white;
-            padding: 2rem;
+            padding: 2rem 1.5rem;
+            position: sticky;
+            top: 0;
+            height: 100vh;
         }
 
-        .sidebar h2 {
-            color: var(--accent-color);
+        .sidebar-logo {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--accent);
             margin-bottom: 3rem;
+            text-align: center;
         }
 
-        .sidebar a {
+        .sidebar-nav a {
             display: block;
-            color: rgba(255, 255, 255, 0.8);
-            padding: 1rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 0.8rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 6px;
+            transition: var(--transition);
         }
 
-        .sidebar a:hover {
+        .sidebar-nav a.active,
+        .sidebar-nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
             color: white;
-            padding-left: 10px;
+        }
+
+        .sidebar-nav i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
         }
 
         .main-content {
-            background: #f4f6f8;
-            padding: 2rem;
+            background: #F5F7F9;
+            padding: 2rem 3rem;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-info h4 {
+            font-family: var(--font-body);
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .stat-info div {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
         }
 
         .card {
             background: white;
             padding: 2rem;
-            border-radius: var(--radius-sm);
-            box-shadow: var(--shadow-sm);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
             margin-bottom: 2rem;
         }
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
         }
 
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+        .search-bar {
+            padding: 0.6rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            width: 300px;
+            outline: none;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 1rem;
         }
 
         th,
         td {
             padding: 1rem;
             text-align: left;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #f0f0f0;
         }
 
         th {
-            background: #fafafa;
+            font-weight: 700;
+            color: var(--text-light);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            border-radius: 4px;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f9f9f9;
+        }
+
+        .activity-time {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            min-width: 80px;
+        }
+
+        .activity-badge {
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            text-transform: uppercase;
         }
     </style>
 </head>
@@ -97,151 +179,339 @@
 <body>
 
     <div class="admin-layout">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <h2>Gunnuu Admin</h2>
-            <a href="#" class="active"><i class="fas fa-box"></i> Products</a>
-            <a href="#" onclick="alert('Coming soon!')"><i class="fas fa-users"></i> Customers</a>
-            <a href="#" onclick="alert('Coming soon!')"><i class="fas fa-chart-line"></i> Analytics</a>
-            <a href="#" onclick="logoutBtn()"><i class="fas fa-sign-out-alt"></i> Logout</a>
-        </div>
+        <aside class="sidebar">
+            <div class="sidebar-logo">Gunnuu Admin</div>
+            <nav class="sidebar-nav">
+                <a href="javascript:void(0)" class="active" onclick="switchTab('analytics', this)"><i
+                        class="fas fa-chart-pie"></i> Analytics</a>
+                <a href="javascript:void(0)" onclick="switchTab('products', this)"><i class="fas fa-birthday-cake"></i>
+                    Products</a>
+                <a href="javascript:void(0)" onclick="switchTab('customers', this)"><i class="fas fa-history"></i>
+                    Activity Log</a>
+                <a href="javascript:void(0)" onclick="logoutBtn()" style="margin-top: 2rem; color: #ff5252;"><i
+                        class="fas fa-sign-out-alt"></i> Logout</a>
+            </nav>
+        </aside>
 
-        <!-- Main Content -->
-        <div class="main-content">
-            <h1>Product Management</h1>
+        <main class="main-content">
 
-            <!-- Add Product -->
-            <div class="card">
-                <h3>Add New Product</h3>
-                <form id="addProductForm">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>Product Name</label>
-                            <input type="text" id="pName" required>
+            <!-- Tab: Analytics -->
+            <section id="tab-analytics" class="tab-content active">
+                <div class="header-actions">
+                    <h1>Dashboard Overview</h1>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #E3F2FD; color: #1E88E5;"><i class="fas fa-eye"></i>
                         </div>
-                        <div class="form-group">
-                            <label>Category</label>
-                            <select id="pCategory">
-                                <option value="cakes">Cakes</option>
-                                <option value="cupcakes">Cupcakes & Breads</option>
-                                <option value="cookies">Cookies</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Price (₹)</label>
-                            <input type="number" id="pPrice" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Unit (e.g., kg, pc)</label>
-                            <input type="text" id="pUnit" required>
-                        </div>
-                        <div class="form-group" style="grid-column: span 2;">
-                            <label>Product Image</label>
-                            <input type="file" id="pImageFile" accept="image/*">
-                            <input type="hidden" id="pImageBase64">
-                            <small style="color: #666;">Select an image from your device.</small>
-                        </div>
-                        <div class="form-group" style="grid-column: span 2;">
-                            <label>Description</label>
-                            <textarea id="pDesc" rows="2" required></textarea>
+                        <div class="stat-info">
+                            <h4>Total Visits</h4>
+                            <div id="stat-visits">0</div>
                         </div>
                     </div>
-                    <button type="submit" class="btn">Add Product</button>
-                </form>
-            </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #FFF3E0; color: #FB8C00;"><i
+                                class="fas fa-shopping-cart"></i></div>
+                        <div class="stat-info">
+                            <h4>Total Leads</h4>
+                            <div id="stat-leads">0</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #F3E5F5; color: #8E24AA;"><i class="fas fa-box"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h4>Inventory</h4>
+                            <div id="stat-products">0</div>
+                        </div>
+                    </div>
+                </div>
 
-            <!-- List -->
-            <div class="card">
-                <h3>Current Products</h3>
-                <table id="productsTable">
-                    <thead>
-                        <tr>
-                            <th>Image</th>
-                            <th>Name</th>
-                            <th>Price</th>
-                            <th>Category</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="productsBody">
-                        <!-- JS renders here -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
+                <div class="card">
+                    <h3>Recent Site Performance</h3>
+                    <p style="color: #757575; margin-bottom: 2rem;">Real-time tracking of user interactions on your
+                        website.</p>
+                    <div id="analytics-summary">
+                        <!-- Summary text built by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab: Products -->
+            <section id="tab-products" class="tab-content">
+                <div class="header-actions">
+                    <h1>Product Catalog</h1>
+                    <button class="btn" onclick="openAddForm()">+ Add Product</button>
+                </div>
+
+                <div class="card" id="product-form-card" style="display: none;">
+                    <h3 id="form-title">Add New Product</h3>
+                    <form id="productForm" style="margin-top: 1.5rem;">
+                        <input type="hidden" id="edit-id">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div>
+                                <label style="display:block; margin-bottom: 5px;">Name</label>
+                                <input type="text" id="p-name"
+                                    style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px;"
+                                    required>
+                            </div>
+                            <div>
+                                <label style="display:block; margin-bottom: 5px;">Category</label>
+                                <select id="p-category"
+                                    style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px;">
+                                    <option value="cakes">Cakes</option>
+                                    <option value="cupcakes">Cupcakes & Breads</option>
+                                    <option value="cookies">Cookies</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="display:block; margin-bottom: 5px;">Price (₹)</label>
+                                <input type="number" id="p-price"
+                                    style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px;"
+                                    required>
+                            </div>
+                            <div>
+                                <label style="display:block; margin-bottom: 5px;">Unit</label>
+                                <input type="text" id="p-unit" placeholder="kg, pc, etc."
+                                    style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px;"
+                                    required>
+                            </div>
+                        </div>
+                        <div style="margin-top: 1rem;">
+                            <label style="display:block; margin-bottom: 5px;">Description</label>
+                            <textarea id="p-desc"
+                                style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px;"
+                                rows="3"></textarea>
+                        </div>
+                        <div style="margin-top: 1rem; display: flex; gap: 1rem;">
+                            <button type="submit" class="btn">Save Product</button>
+                            <button type="button" class="btn" style="background:#757575;"
+                                onclick="closeAddForm()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <div style="margin-bottom: 1.5rem; display: flex; justify-content: flex-end;">
+                        <input type="text" id="product-search" class="search-bar" placeholder="Search products..."
+                            onkeyup="filterProducts()">
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th style="text-align: right;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="product-list-body"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Tab: Activity Log (Customers) -->
+            <section id="tab-customers" class="tab-content">
+                <div class="header-actions">
+                    <h1>Activity Log</h1>
+                </div>
+                <div class="card">
+                    <div id="activity-log">
+                        <!-- JS renders activities here -->
+                    </div>
+                </div>
+            </section>
+
+        </main>
     </div>
 
     <script type="module">
         import { checkAuth, logout } from './js/auth.js';
 
-        // Auth Check
+        // Auth
         checkAuth();
         window.logoutBtn = logout;
 
-        const PRODUCTS_KEY = 'gunnuu_products';
+        const STORAGE_KEYS = {
+            PRODUCTS: 'gunnuu_products',
+            ACTIVITIES: 'gunnuu_user_activities',
+            STATS: 'gunnuu_visitor_stats'
+        };
 
-        // Load or Init
-        function getProducts() {
-            return JSON.parse(localStorage.getItem(PRODUCTS_KEY) || '[]');
-        }
+        // Tab Switching
+        window.switchTab = (tabId, el) => {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
 
-        // Render
-        function renderTable() {
-            const products = getProducts();
-            const tbody = document.getElementById('productsBody');
-            tbody.innerHTML = '';
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+            el.classList.add('active');
 
-            products.forEach(p => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td><img src="${p.image}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 5px;"></td>
-                    <td>${p.name}</td>
-                    <td>₹${p.price} / ${p.unit}</td>
-                    <td>${p.category}</td>
+            if (tabId === 'analytics') loadAnalytics();
+            if (tabId === 'products') loadProducts();
+            if (tabId === 'customers') loadActivity();
+        };
+
+        // --- Products Logic ---
+        function loadProducts() {
+            const products = JSON.parse(localStorage.getItem(STORAGE_KEYS.PRODUCTS) || '[]');
+            const list = document.getElementById('product-list-body');
+            list.innerHTML = products.map(p => `
+                <tr>
                     <td>
-                        <button onclick="window.deleteProduct(${p.id})" style="color: red; border: none; background: none; cursor: pointer;">
-                            <i class="fas fa-trash"></i>
-                        </button>
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <img src="${p.image}" style="width:40px; height:40px; border-radius:6px; object-fit:cover;">
+                            <span>${p.name}</span>
+                        </div>
                     </td>
-                `;
-                tbody.appendChild(tr);
-            });
+                    <td><span class="activity-badge" style="background:#eee; color:#666;">${p.category}</span></td>
+                    <td>₹${p.price}</td>
+                    <td style="text-align: right;">
+                        <button class="btn-sm" style="background:#eee; color:var(--primary); border:none; margin-right:5px; cursor:pointer;" onclick="editProduct(${p.id})">Edit</button>
+                        <button class="btn-sm" style="background:#fed; color:red; border:none; cursor:pointer;" onclick="deleteProduct(${p.id})">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
         }
 
-        // Add
-        document.getElementById('addProductForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const products = getProducts();
-            const newProduct = {
-                id: Date.now(),
-                name: document.getElementById('pName').value,
-                category: document.getElementById('pCategory').value,
-                price: parseInt(document.getElementById('pPrice').value),
-                unit: document.getElementById('pUnit').value,
-                image: document.getElementById('pImage').value,
-                desc: document.getElementById('pDesc').value
-            };
+        window.openAddForm = () => {
+            document.getElementById('product-form-card').style.display = 'block';
+            document.getElementById('form-title').innerText = 'Add New Product';
+            document.getElementById('productForm').reset();
+            document.getElementById('edit-id').value = '';
+        };
 
-            products.push(newProduct);
-            localStorage.setItem(PRODUCTS_KEY, JSON.stringify(products));
+        window.closeAddForm = () => {
+            document.getElementById('product-form-card').style.display = 'none';
+        };
 
-            e.target.reset();
-            renderTable();
-            alert('Product Added!');
-        });
-
-        // Delete
-        window.deleteProduct = (id) => {
-            if (confirm('Are you sure?')) {
-                let products = getProducts();
-                products = products.filter(p => p.id !== id);
-                localStorage.setItem(PRODUCTS_KEY, JSON.stringify(products));
-                renderTable();
+        window.editProduct = (id) => {
+            const products = JSON.parse(localStorage.getItem(STORAGE_KEYS.PRODUCTS) || '[]');
+            const p = products.find(x => x.id === id);
+            if (p) {
+                openAddForm();
+                document.getElementById('form-title').innerText = 'Edit Product';
+                document.getElementById('edit-id').value = p.id;
+                document.getElementById('p-name').value = p.name;
+                document.getElementById('p-category').value = p.category;
+                document.getElementById('p-price').value = p.price;
+                document.getElementById('p-unit').value = p.unit;
+                document.getElementById('p-desc').value = p.desc;
             }
         };
 
+        document.getElementById('productForm').onsubmit = (e) => {
+            e.preventDefault();
+            const id = document.getElementById('edit-id').value;
+            let products = JSON.parse(localStorage.getItem(STORAGE_KEYS.PRODUCTS) || '[]');
+
+            const pData = {
+                id: id ? parseInt(id) : Date.now(),
+                name: document.getElementById('p-name').value,
+                category: document.getElementById('p-category').value,
+                price: parseInt(document.getElementById('p-price').value),
+                unit: document.getElementById('p-unit').value,
+                desc: document.getElementById('p-desc').value,
+                image: 'images/chocolate-truffle-cake.jpg' // Default Placeholder for now
+            };
+
+            if (id) {
+                products = products.map(x => x.id === parseInt(id) ? { ...x, ...pData } : x);
+            } else {
+                products.push(pData);
+            }
+
+            localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(products));
+            closeAddForm();
+            loadProducts();
+        };
+
+        window.deleteProduct = (id) => {
+            if (confirm('Delete this product?')) {
+                let products = JSON.parse(localStorage.getItem(STORAGE_KEYS.PRODUCTS) || '[]');
+                products = products.filter(x => x.id !== id);
+                localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(products));
+                loadProducts();
+            }
+        };
+
+        window.filterProducts = () => {
+            const term = document.getElementById('product-search').value.toLowerCase();
+            const rows = document.querySelectorAll('#product-list-body tr');
+            rows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                row.style.display = text.includes(term) ? '' : 'none';
+            });
+        };
+
+        // --- Analytics & Customers Logic ---
+        function loadAnalytics() {
+            const stats = JSON.parse(localStorage.getItem(STORAGE_KEYS.STATS) || '{"visits": 0}');
+            const activities = JSON.parse(localStorage.getItem(STORAGE_KEYS.ACTIVITIES) || '[]');
+            const products = JSON.parse(localStorage.getItem(STORAGE_KEYS.PRODUCTS) || '[]');
+
+            const leads = activities.filter(a => a.type === 'checkout_start').length;
+
+            document.getElementById('stat-visits').innerText = stats.visits;
+            document.getElementById('stat-leads').innerText = leads;
+            document.getElementById('stat-products').innerText = products.length;
+
+            const summary = document.getElementById('analytics-summary');
+            if (activities.length === 0) {
+                summary.innerHTML = '<p>No data recorded yet. Visit the website to generate stats.</p>';
+            } else {
+                const last5 = activities.slice(0, 5);
+                summary.innerHTML = `
+                    <p style="margin-bottom: 1rem;"><strong>Engagement Overview:</strong> Your users are mostly adding items to cart recently.</p>
+                    <div style="display:flex; gap:1rem;">
+                        <div style="flex:1; background:#f9f9f9; padding:1rem; border-radius:8px;">
+                            <h5>Recent Add to Cart</h5>
+                            <div style="font-size:1.5rem; font-weight:bold; color:var(--accent);">${activities.filter(a => a.type === 'cart_add').length}</div>
+                        </div>
+                        <div style="flex:1; background:#f9f9f9; padding:1rem; border-radius:8px;">
+                            <h5>Avg Order Start</h5>
+                            <div style="font-size:1.5rem; font-weight:bold; color:var(--primary);">${leads}</div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function loadActivity() {
+            const activities = JSON.parse(localStorage.getItem(STORAGE_KEYS.ACTIVITIES) || '[]');
+            const list = document.getElementById('activity-log');
+
+            if (activities.length === 0) {
+                list.innerHTML = '<p>No activity yet.</p>';
+                return;
+            }
+
+            list.innerHTML = activities.map(a => {
+                let color = '#757575';
+                if (a.type === 'cart_add') color = '#FB8C00';
+                if (a.type === 'checkout_start') color = '#4CAF50';
+
+                const time = new Date(a.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const date = new Date(a.timestamp).toLocaleDateString();
+
+                return `
+                    <div class="activity-item">
+                        <div class="activity-time">${time}<br><small>${date}</small></div>
+                        <div style="flex: 1;">
+                            <span class="activity-badge" style="background:${color}22; color:${color}">${a.type.replace('_', ' ')}</span>
+                            <div style="margin-top: 5px; font-weight: 500;">
+                                ${a.data.name ? `<strong>${a.data.name}</strong>` : ''} 
+                                ${a.data.total ? `Order Total: ₹${a.data.total}` : ''}
+                                ${a.type === 'page_visit' ? `Visited ${a.data.url || 'Home'}` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
         // Init
-        renderTable();
+        loadAnalytics();
     </script>
 </body>
 
