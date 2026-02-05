@@ -4,36 +4,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gunnuu Bakers | Admin Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Admin Dashboard | Gunnuu Bakers</title>
+    <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .admin-header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 1rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .admin-container {
-            padding: 2rem 5%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .dashboard-grid {
+        .admin-layout {
             display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 2rem;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
         }
 
-        .add-product-form {
+        .sidebar {
+            background: var(--primary-color);
+            color: white;
+            padding: 2rem;
+        }
+
+        .sidebar h2 {
+            color: var(--accent-color);
+            margin-bottom: 3rem;
+        }
+
+        .sidebar a {
+            display: block;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar a:hover {
+            color: white;
+            padding-left: 10px;
+        }
+
+        .main-content {
+            background: #f4f6f8;
+            padding: 2rem;
+        }
+
+        .card {
             background: white;
             padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 2rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
         }
 
         .form-group {
@@ -43,175 +63,183 @@
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
-            font-weight: bold;
+            font-weight: 600;
         }
 
         .form-group input,
-        .form-group textarea,
-        .form-group select {
+        .form-group select,
+        .form-group textarea {
             width: 100%;
-            padding: 0.8rem;
+            padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
         }
 
-        .product-list {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
         }
 
-        .product-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        th,
+        td {
             padding: 1rem;
+            text-align: left;
             border-bottom: 1px solid #eee;
         }
 
-        .product-item:last-child {
-            border-bottom: none;
-        }
-
-        .delete-btn {
-            color: red;
-            cursor: pointer;
+        th {
+            background: #fafafa;
         }
     </style>
 </head>
 
 <body>
-    <div class="admin-header">
-        <h2>Gunnuu Bakers Admin</h2>
-        <div>
-            <span id="adminName">Welcome, Ragini</span>
-            <button onclick="logoutClicked()" class="btn"
-                style="background: white; color: var(--primary-color); padding: 5px 15px; margin-left: 10px;">Logout</button>
-        </div>
-    </div>
 
-    <div class="admin-container">
-        <h1>Dashboard</h1>
-        <div class="dashboard-grid">
-            <!-- Add Product Form -->
-            <div class="add-product-form">
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>Gunnuu Admin</h2>
+            <a href="#" class="active"><i class="fas fa-box"></i> Products</a>
+            <a href="#" onclick="alert('Coming soon!')"><i class="fas fa-users"></i> Customers</a>
+            <a href="#" onclick="alert('Coming soon!')"><i class="fas fa-chart-line"></i> Analytics</a>
+            <a href="#" onclick="logoutBtn()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <h1>Product Management</h1>
+
+            <!-- Add Product -->
+            <div class="card">
                 <h3>Add New Product</h3>
                 <form id="addProductForm">
-                    <div class="form-group">
-                        <label>Product Name</label>
-                        <input type="text" id="pName" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Category</label>
-                        <select id="pCategory">
-                            <option value="cakes">Cakes</option>
-                            <option value="cupcakes">Cupcakes & Breads</option>
-                            <option value="cookies">Cookies</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Price</label>
-                        <input type="text" id="pPrice" placeholder="e.g. ₹1200 / kg" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Description</label>
-                        <textarea id="pDesc" rows="3" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Image URL</label>
-                        <input type="text" id="pImage" placeholder="https://..." required>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Product Name</label>
+                            <input type="text" id="pName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select id="pCategory">
+                                <option value="cakes">Cakes</option>
+                                <option value="cupcakes">Cupcakes & Breads</option>
+                                <option value="cookies">Cookies</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Price (₹)</label>
+                            <input type="number" id="pPrice" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Unit (e.g., kg, pc)</label>
+                            <input type="text" id="pUnit" required>
+                        </div>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label>Image Path/URL</label>
+                            <input type="text" id="pImage" placeholder="assets/images/..." required>
+                        </div>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label>Description</label>
+                            <textarea id="pDesc" rows="2" required></textarea>
+                        </div>
                     </div>
                     <button type="submit" class="btn">Add Product</button>
                 </form>
             </div>
 
-            <!-- Product List -->
-            <div class="product-list">
+            <!-- List -->
+            <div class="card">
                 <h3>Current Products</h3>
-                <div id="products-container">
-                    <!-- Products will be loaded here -->
-                </div>
+                <table id="productsTable">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Category</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productsBody">
+                        <!-- JS renders here -->
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 
     <script type="module">
-        import { checkAuth, logout } from './auth.js';
+        import { checkAuth, logout } from './js/auth.js';
 
-        // Protect Route
+        // Auth Check
         checkAuth();
+        window.logoutBtn = logout;
 
-        window.logoutClicked = logout;
-
-        // Simple Data Management (Simulated Backend)
         const PRODUCTS_KEY = 'gunnuu_products';
 
-        // Initial Dummy Data if empty
-        if (!localStorage.getItem(PRODUCTS_KEY)) {
-            // We would pre-populate this with the existing static HTML data ideally, 
-            // but for now let's start fresh or rely on user adding content.
-            // Or better, let's load a few defaults so it's not empty.
-            const defaults = [
-                { id: 1, name: "Chocolate Truffle", category: "cakes", price: "₹1200 / kg", desc: "Rich chocolate ganache.", image: "images/chocolate-truffle-cake.jpg" },
-                { id: 2, name: "Pookiee Cookiee", category: "cookies", price: "₹500 / 500g", desc: "Signature chocochip.", image: "images/pookie-cookie.jpg" }
-            ];
-            localStorage.setItem(PRODUCTS_KEY, JSON.stringify(defaults));
+        // Load or Init
+        function getProducts() {
+            return JSON.parse(localStorage.getItem(PRODUCTS_KEY) || '[]');
         }
 
-        const productsContainer = document.getElementById('products-container');
-        const form = document.getElementById('addProductForm');
+        // Render
+        function renderTable() {
+            const products = getProducts();
+            const tbody = document.getElementById('productsBody');
+            tbody.innerHTML = '';
 
-        function loadProducts() {
-            const products = JSON.parse(localStorage.getItem(PRODUCTS_KEY) || '[]');
-            productsContainer.innerHTML = '';
             products.forEach(p => {
-                const item = document.createElement('div');
-                item.className = 'product-item';
-                item.innerHTML = `
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <img src="${p.image}" style="width:50px; height:50px; object-fit:cover; border-radius:5px;">
-                        <div>
-                            <strong>${p.name}</strong><br>
-                            <small>${p.price}</small>
-                        </div>
-                    </div>
-                    <i class="fas fa-trash delete-btn" onclick="deleteProduct(${p.id})"></i>
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><img src="${p.image}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 5px;"></td>
+                    <td>${p.name}</td>
+                    <td>₹${p.price} / ${p.unit}</td>
+                    <td>${p.category}</td>
+                    <td>
+                        <button onclick="window.deleteProduct(${p.id})" style="color: red; border: none; background: none; cursor: pointer;">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
                 `;
-                productsContainer.appendChild(item);
+                tbody.appendChild(tr);
             });
         }
 
-        window.deleteProduct = (id) => {
-            if (confirm('Are you sure?')) {
-                let products = JSON.parse(localStorage.getItem(PRODUCTS_KEY) || '[]');
-                products = products.filter(p => p.id !== id);
-                localStorage.setItem(PRODUCTS_KEY, JSON.stringify(products));
-                loadProducts();
-            }
-        };
-
-        form.addEventListener('submit', (e) => {
+        // Add
+        document.getElementById('addProductForm').addEventListener('submit', (e) => {
             e.preventDefault();
+            const products = getProducts();
             const newProduct = {
                 id: Date.now(),
                 name: document.getElementById('pName').value,
                 category: document.getElementById('pCategory').value,
-                price: document.getElementById('pPrice').value,
-                desc: document.getElementById('pDesc').value,
-                image: document.getElementById('pImage').value
+                price: parseInt(document.getElementById('pPrice').value),
+                unit: document.getElementById('pUnit').value,
+                image: document.getElementById('pImage').value,
+                desc: document.getElementById('pDesc').value
             };
 
-            const products = JSON.parse(localStorage.getItem(PRODUCTS_KEY) || '[]');
             products.push(newProduct);
             localStorage.setItem(PRODUCTS_KEY, JSON.stringify(products));
 
-            form.reset();
-            loadProducts();
+            e.target.reset();
+            renderTable();
             alert('Product Added!');
         });
 
-        loadProducts();
+        // Delete
+        window.deleteProduct = (id) => {
+            if (confirm('Are you sure?')) {
+                let products = getProducts();
+                products = products.filter(p => p.id !== id);
+                localStorage.setItem(PRODUCTS_KEY, JSON.stringify(products));
+                renderTable();
+            }
+        };
+
+        // Init
+        renderTable();
     </script>
 </body>
 

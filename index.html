@@ -4,153 +4,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gunnuu Bakers | Premium Cakes & Cookies</title>
-    <link rel="stylesheet" href="styles.css">
-    <!-- Google Fonts -->
+    <title>Gunnuu Bakers | Premium Handcrafted Cakes</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
 <body>
-    <header>
-        <nav class="navbar">
-            <a href="#" class="logo">Gunnuu Bakers</a>
-            <div class="hamburger">&#9776;</div>
-            <ul class="nav-links">
-                <li><a href="#hero">Home</a></li>
-                <li><a href="#menu">Menu</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container nav">
+            <div class="logo">Gunnuu Bakers</div>
+            <div class="nav-links">
+                <a href="#hero">Home</a>
+                <a href="#menu">Menu</a>
+                <a href="#about">About</a>
+            </div>
+            <div class="cart-icon" onclick="window.toggleCart()">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-badge" id="cart-count">0</span>
+            </div>
+        </div>
     </header>
 
+    <!-- Hero -->
     <section id="hero" class="hero">
-        <div id="canvas-container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;">
-        </div>
-        <div class="hero-content" style="position: relative; z-index: 1;">
-            <img src="images/pookie-cookie.jpg" class="hero-logo" alt="Gunnuu Bakers Logo"
-                style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem; border: 4px solid var(--white);">
+        <div class="container">
             <h1>Freshly Baked Happiness</h1>
             <p>Handcrafted by Ragini | Premium Ingredients | Made with Love</p>
-            <a href="#menu" class="btn">Explore Menu</a>
+            <a href="#menu" class="btn">Explore Our Menu</a>
         </div>
-        <script type="module" src="3d-scene.js"></script>
     </section>
 
+    <!-- Menu Section -->
     <section id="menu" class="section">
-        <h2 class="section-title">Our Menu</h2>
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-title">Our Signature Creations</h2>
+                <p class="section-subtitle">Indulge in our wide range of premium baked goods</p>
+            </div>
 
-        <!-- Cakes Category -->
-        <h3 class="category-title">Signature Cakes</h3>
-        <div class="products-grid" id="cakes-grid">
-            <!-- Content will be loaded dynamically via script.js -->
+            <!-- Cakes -->
+            <h3 class="category-title">Signature Cakes</h3>
+            <div id="cakes-grid" class="products-grid">
+                <!-- Products injected by JS -->
+            </div>
+
+            <!-- Cupcakes & Breads -->
+            <h3 class="category-title" style="margin-top: 4rem;">Cupcakes & Breads</h3>
+            <div id="cupcakes-grid" class="products-grid"></div>
+
+            <!-- Cookies -->
+            <h3 class="category-title" style="margin-top: 4rem;">Cookies & Biscuits</h3>
+            <div id="cookies-grid" class="products-grid"></div>
         </div>
-
-        <!-- Cupcakes & Breads Category -->
-        <h3 class="category-title" style="margin-top: 3rem;">Cupcakes, Muffins & Breads</h3>
-        <div class="products-grid" id="cupcakes-grid">
-            <!-- Content will be loaded dynamically via script.js -->
-        </div>
-
-        <!-- Cookies Category -->
-        <h3 class="category-title" style="margin-top: 3rem;">Cookies & More</h3>
-        <div class="products-grid" id="cookies-grid">
-            <!-- Content will be loaded dynamically via script.js -->
-        </div>
-
-
     </section>
 
-    <section id="about" class="section about">
-        <div class="about-content">
-            <div class="about-image" style="background-image: url('images/ragini.jpg');"></div>
-            <div class="about-text">
-                <h2 class="section-title" style="text-align: left; margin-bottom: 1.5rem;">Meet the Baker</h2>
-                <h3 style="margin-bottom: 1rem; color: var(--accent-color);">Ragini</h3>
-                <p>Hi, I'm Ragini! I'm a 3rd-year B.Tech student specializing in AI & ML at Graphic Era University.
-                    While I love coding, my true passion lies in the art of baking.</p>
-                <p>What started as a small home kitchen experiment has grown into <strong>Gunnuu Bakers</strong>. I pour
-                    my heart into creating delicious, high-quality cakes and treats that make your special moments even
-                    sweeter.</p>
-                <p>Thank you for supporting my small business and my dreams!</p>
-                <div class="social-links" style="margin-top: 1.5rem;">
-                    <a href="https://instagram.com/gunnuu.bakers08" target="_blank" class="btn"
-                        style="display: inline-flex; align-items: center; gap: 10px;">
-                        <i class="fab fa-instagram"></i> Follow on Instagram
-                    </a>
+    <!-- About Section -->
+    <section id="about" class="section about-section">
+        <div class="container">
+            <div class="about-content">
+                <img src="assets/images/ragini.jpg" alt="Ragini Baker" class="about-img"
+                    onerror="this.src='https://images.unsplash.com/photo-1556910103-1c02745a30bf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80'">
+                <div class="about-text">
+                    <h2 class="section-title" style="text-align: left;">Meet the Baker</h2>
+                    <h3 class="text-gold">Ragini</h3>
+                    <p style="margin-top: 1rem; color: #555;">
+                        Hi, I'm Ragini! I'm a 3rd-year B.Tech student specializing in AI & ML at Graphic Era University.
+                        While I love coding, my true passion lies in the art of baking.
+                        What started as a small home kitchen experiment has grown into Gunnuu Bakers, where every cake
+                        is a piece of art and a slice of love.
+                    </p>
+                    <div style="margin-top: 2rem;">
+                        <a href="https://instagram.com/gunnuu.bakers08" target="_blank" class="btn btn-outline">
+                            <i class="fab fa-instagram"></i> Follow on Instagram
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="contact" class="section">
-        <h2 class="section-title">Visit Us</h2>
-        <div style="text-align: center;">
-            <p style="font-size: 1.2rem; margin-bottom: 1rem;">Ready to order? DM us on Instagram or call!</p>
-            <p style="font-size: 1.5rem; font-weight: 700; color: var(--accent-color);">+91 8923294341</p>
-            <p style="margin-top: 1rem;">Dehradun, The City of Love</p>
-        </div>
-    </section>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>Gunnuu Bakers</h3>
-                <p>Baking the world a better place, one cake at a time.</p>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <h3>Gunnuu Bakers</h3>
+            <p>Dehradun, The City of Love</p>
+            <p style="margin: 0.5rem 0;">+91 8923294341</p>
+            <div style="margin-top: 1rem; opacity: 0.7; font-size: 0.8rem;">
+                &copy; 2026 Gunnuu Bakers. All rights reserved.
             </div>
-            <div class="footer-column">
-                <h3>Quick Links</h3>
-                <p><a href="#hero">Home</a></p>
-                <p><a href="#menu">Menu</a></p>
-                <p><a href="#about">About</a></p>
-            </div>
-            <div class="footer-column">
-                <h3>Connect</h3>
-                <p><a href="https://instagram.com/gunnuu.bakers08" target="_blank">Instagram: @gunnuu.bakers08</a></p>
-                <p>+91 8923294341</p>
-            </div>
-        </div>
-        <div class="copyright">
-            <p>&copy; 2026 Gunnuu Bakers. All rights reserved. | <a href="login.html"
-                    style="color: inherit; text-decoration: underline;">Admin Login</a></p>
         </div>
     </footer>
 
-    <script src="script.js"></script>
-
-    <!-- Cart UI -->
-    <div class="cart-floating-btn" onclick="toggleCart()">
-        <i class="fas fa-shopping-cart"></i>
-        <span class="cart-count">0</span>
-    </div>
-
-    <div class="cart-modal" id="cartModal">
+    <!-- Cart Overlay -->
+    <div id="cart-overlay" class="cart-overlay">
         <div class="cart-header">
             <h3>Your Cart</h3>
-            <span class="close-cart" onclick="toggleCart()">&times;</span>
+            <i class="fas fa-times" onclick="window.toggleCart()" style="cursor: pointer;"></i>
         </div>
-        <div class="cart-items" id="cartItems">
-            <!-- Items go here -->
-            <p style="text-align:center; margin-top: 2rem;">Your cart is empty.</p>
+        <div id="cart-items" class="cart-items">
+            <!-- Items injected by JS -->
+            <p style="text-align: center; margin-top: 2rem; color: #888;">Your cart is empty.</p>
         </div>
         <div class="cart-footer">
-            <div class="cart-total">
+            <div class="total-row">
                 <span>Total:</span>
-                <span id="cartTotal">₹0</span>
+                <span id="cart-total">₹0</span>
             </div>
-            <textarea class="special-instructions" id="cartNote"
-                placeholder="Add a note (e.g., Happy Birthday Message)..." rows="3"></textarea>
-            <button class="btn" onclick="checkoutWhatsApp()"
-                style="width: 100%; display: flex; justify-content: center; align-items: center; gap: 10px;">
-                <i class="fab fa-whatsapp"></i> Order on WhatsApp
-            </button>
+            <button class="btn" onclick="window.checkout()" style="width: 100%;">Checkout on WhatsApp</button>
         </div>
     </div>
+
+    <!-- Scripts -->
+    <script type="module" src="js/app.js"></script>
 </body>
 
 </html>

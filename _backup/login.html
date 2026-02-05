@@ -4,54 +4,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login | Gunnuu Bakers</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Gunnuu Bakers | Admin Login</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
         body {
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('assets/images/chocolate-truffle-cake.jpg');
-            background-size: cover;
-            background-position: center;
-            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            height: 100vh;
+            background-color: var(--secondary-color);
         }
 
         .login-card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 3rem;
-            border-radius: var(--radius-md);
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 400px;
             text-align: center;
-            box-shadow: var(--shadow-lg);
+        }
+
+        .login-card h2 {
+            margin-bottom: 2rem;
+            color: var(--primary-color);
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             text-align: left;
         }
 
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
-            font-weight: 600;
         }
 
         .form-group input {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
             border-radius: 5px;
+        }
+
+        .error-msg {
+            color: red;
+            margin-bottom: 1rem;
+            display: none;
         }
     </style>
 </head>
 
 <body>
-
     <div class="login-card">
-        <h2 style="margin-bottom: 2rem;">Admin Login</h2>
+        <h2>Admin Login</h2>
+        <p class="error-msg" id="errorMsg">Invalid Credentials</p>
         <form id="loginForm">
             <div class="form-group">
                 <label>Username</label>
@@ -63,10 +70,19 @@
             </div>
             <button type="submit" class="btn" style="width: 100%;">Login</button>
         </form>
+        <p style="margin-top: 1rem;"><a href="index.html">Back to Website</a></p>
     </div>
 
     <script type="module">
-        import { login } from './js/auth.js';
+        import { login, checkAuth } from './auth.js';
+
+        // Use checkAuth to see if already logged in?
+        // Actually checkAuth redirects to index if not admin, but here we are on login.
+        // Let's just check localStorage directly to auto-redirect if already logged in.
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+        if (user && user.role === 'admin') {
+            window.location.href = 'admin.html';
+        }
 
         document.getElementById('loginForm').addEventListener('submit', (e) => {
             e.preventDefault();
@@ -76,7 +92,7 @@
             if (login(u, p)) {
                 window.location.href = 'admin.html';
             } else {
-                alert('Invalid Credentials!');
+                document.getElementById('errorMsg').style.display = 'block';
             }
         });
     </script>

@@ -23,7 +23,14 @@ const COOKIES = [
 const DEFAULT_PRODUCTS = [...CAKES, ...CUPCAKES, ...COOKIES];
 let cart = [];
 
+// Import tracking functions
+import { trackActivity, trackVisitor } from './auth.js';
+
 document.addEventListener('DOMContentLoaded', () => {
+    // Track page visit
+    trackVisitor();
+    trackActivity('page_visit', { page: 'home', timestamp: new Date().toISOString() });
+
     // 1. Initialize Data
     if (!localStorage.getItem(PRODUCTS_KEY)) {
         localStorage.setItem(PRODUCTS_KEY, JSON.stringify(DEFAULT_PRODUCTS));
@@ -117,6 +124,15 @@ window.addToCart = function (productId) {
         if (isNaN(cleanPrice)) cleanPrice = 0;
 
         cart.push({ ...product, priceNum: cleanPrice });
+
+        // Track cart activity
+        trackActivity('cart_add', {
+            productId: product.id,
+            productName: product.name,
+            price: cleanPrice,
+            timestamp: new Date().toISOString()
+        });
+
         updateCartUI();
         // Open cart to show user
         document.getElementById('cartModal').classList.add('active');
@@ -124,6 +140,14 @@ window.addToCart = function (productId) {
 };
 
 window.removeFromCart = function (index) {
+    const removedItem = cart[index];
+
+    // Track cart removal
+    trackActivity('cart_remove', {
+        productName: removedItem.name,
+        timestamp: new Date().toISOString()
+    });
+
     cart.splice(index, 1);
     updateCartUI();
 };
@@ -184,7 +208,19 @@ window.checkoutWhatsApp = function () {
 
     message += "\nPlease confirm my order!";
 
+    // Track order placement
+    trackActivity('order_placed', {
+        items: cart.map(item => ({ name: item.name, price: item.priceNum })),
+        total: total,
+        note: note,
+        timestamp: new Date().toISOString()
+    });
+
     // Encode and open
     const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
+
+    // Clear cart after order
+    cart = [];
+    updateCartUI();
 };

@@ -1,0 +1,27 @@
+:root {
+    /* Colors */
+    --primary: #3E2723;
+    /* Dark Chocolate */
+    --primary-light: #5D4037;
+    --secondary: #FAFAFA;
+    /* Cream Background */
+    --accent: #FF7043;
+    /* Terracotta / Baked Orange */
+    --white: #FFFFFF;
+    --text-dark: #212121;
+    --text-light: #757575;
+    --border: #E0E0E0;
+
+    /* Typography */
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Lato', sans-serif;
+
+    /* Spacing */
+    --section-padding: 4rem 1rem;
+    --container-width: 1200px;
+
+    /* Effects */
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --radius: 8px;
+    --transition: all 0.3s ease;
+}

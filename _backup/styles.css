@@ -93,8 +93,8 @@ header {
 /* Hero Section */
 .hero {
     height: 100vh;
-    /* Background removed to show 3D Canvas */
-    background: transparent;
+    /* Background set to dark to make white text and 3D model contrast visible */
+    background: radial-gradient(circle, #5D4037 0%, #3E2723 100%);
     position: relative;
     /* For absolute positioning of canvas */
     display: flex;

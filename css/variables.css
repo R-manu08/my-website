@@ -1,0 +1,44 @@
+:root {
+    /* Color Palette */
+    --primary-color: #4A2C2A;
+    /* Deep Cocoa/Dark Chocolate */
+    --accent-color: #D4AF37;
+    /* Metallic Gold */
+    --accent-hover: #B5952F;
+    /* Darker Gold */
+    --bg-color: #F9F5F0;
+    /* Warm Cream/Off-white */
+    --surface-color: #FFFFFF;
+    /* Pure White */
+    --text-color: #2D2D2D;
+    /* Soft Black */
+    --text-light: #666666;
+    /* Grey text */
+
+    /* Gradients */
+    --gradient-gold: linear-gradient(135deg, #D4AF37 0%, #F2D57D 100%);
+    --gradient-dark: linear-gradient(135deg, #4A2C2A 0%, #2D1A19 100%);
+
+    /* Typography */
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Lato', sans-serif;
+
+    /* Spacing */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 2rem;
+    --spacing-lg: 4rem;
+    --spacing-xl: 6rem;
+
+    /* Shadows & Effects */
+    --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 20px 25px rgba(0, 0, 0, 0.15);
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+
+    /* Transitions */
+    --transition-fast: 0.3s ease;
+    --transition-medium: 0.5s ease;
+}
