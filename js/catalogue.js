@@ -1,6 +1,12 @@
-import { products } from './data.js';
+import { products as defaultProducts } from './data.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Try to load from LocalStorage (Live Database updated by Admin)
+    let storedProducts = JSON.parse(localStorage.getItem('gunnuu_products'));
+
+    // Fallback to default file data if nothing in storage
+    const products = (storedProducts && storedProducts.length > 0) ? storedProducts : defaultProducts;
+
     const grid = document.getElementById('catalogue-grid');
 
     // Group products by category
