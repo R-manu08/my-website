@@ -41,6 +41,14 @@ function renderProducts() {
         const grid = document.getElementById(`${product.category}-grid`);
         if (!grid) return;
 
+        // Generate Flavor List
+        let flavorInfo = '';
+        if (product.flavors && product.flavors.length > 0) {
+            flavorInfo = `<div style="margin-top: 0.5rem; font-size: 0.85rem; color: #666;">
+                            <strong>Flavors:</strong> ${product.flavors.join(', ')}
+                          </div>`;
+        }
+
         const card = document.createElement('div');
         card.className = 'product-card';
         card.innerHTML = `
@@ -49,6 +57,7 @@ function renderProducts() {
                 <h3>${product.name}</h3>
                 <span class="product-price">₹${product.price} / ${product.unit}</span>
                 <p>${product.desc}</p>
+                ${flavorInfo}
                 <button class="btn" style="margin-top: 1rem; width: 100%;" onclick="window.addToCart(${product.id})">
                     Add to Cart
                 </button>

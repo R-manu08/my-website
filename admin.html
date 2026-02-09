@@ -482,14 +482,34 @@
             const list = document.getElementById('activity-log');
 
             if (activities.length === 0) {
-                list.innerHTML = '<p>No activity yet.</p>';
+                list.innerHTML = `
+                    <div style="text-align: center; padding: 3rem;">
+                        <i class="fas fa-user-clock" style="font-size: 3rem; color: #eee; margin-bottom: 1rem; display: block;"></i>
+                        <p style="color: #757575;">No customer activity recorded yet.</p>
+                        <p style="font-size: 0.8rem; color: #999;">Visit your website and click 'Order' to see data here.</p>
+                    </div>
+                `;
                 return;
             }
 
             list.innerHTML = activities.map(a => {
                 let color = '#757575';
-                if (a.type === 'cart_add') color = '#FB8C00';
-                if (a.type === 'checkout_start') color = '#4CAF50';
+                let icon = 'fa-info-circle';
+                let label = a.type.replace('_', ' ');
+
+                if (a.type === 'cart_add') {
+                    color = '#FB8C00';
+                    icon = 'fa-cart-plus';
+                }
+                if (a.type === 'checkout_start') {
+                    color = '#4CAF50';
+                    icon = 'fa-whatsapp';
+                    label = 'Order Started (WhatsApp)';
+                }
+                if (a.type === 'page_visit') {
+                    icon = 'fa-eye';
+                    label = 'Website Visit';
+                }
 
                 const time = new Date(a.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                 const date = new Date(a.timestamp).toLocaleDateString();
@@ -498,11 +518,11 @@
                     <div class="activity-item">
                         <div class="activity-time">${time}<br><small>${date}</small></div>
                         <div style="flex: 1;">
-                            <span class="activity-badge" style="background:${color}22; color:${color}">${a.type.replace('_', ' ')}</span>
+                            <span class="activity-badge" style="background:${color}22; color:${color}"><i class="fas ${icon}" style="margin-right:5px;"></i> ${label}</span>
                             <div style="margin-top: 5px; font-weight: 500;">
                                 ${a.data.name ? `<strong>${a.data.name}</strong>` : ''} 
-                                ${a.data.total ? `Order Total: ₹${a.data.total}` : ''}
-                                ${a.type === 'page_visit' ? `Visited ${a.data.url || 'Home'}` : ''}
+                                ${a.data.total ? `Order Total: <strong>₹${a.data.total}</strong>` : ''}
+                                ${a.type === 'page_visit' ? `Viewed <span style="color:var(--primary)">${a.data.url === '/' ? 'Home Page' : a.data.url}</span>` : ''}
                             </div>
                         </div>
                     </div>
