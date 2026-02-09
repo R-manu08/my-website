@@ -250,7 +250,11 @@
             <section id="tab-products" class="tab-content">
                 <div class="header-actions">
                     <h1>Product Catalog</h1>
-                    <button class="btn" onclick="openAddForm()">+ Add Product</button>
+                    <div style="display:flex; gap:10px;">
+                        <button class="btn" style="background:var(--accent); color:var(--primary);"
+                            onclick="resetData()">Reset Data</button>
+                        <button class="btn" onclick="openAddForm()">+ Add Product</button>
+                    </div>
                 </div>
 
                 <div class="card" id="product-form-card" style="display: none;">
@@ -465,6 +469,20 @@
                 const text = row.innerText.toLowerCase();
                 row.style.display = text.includes(term) ? '' : 'none';
             });
+        };
+
+        window.resetData = () => {
+            if (confirm('This will RESET all products to the default list from the code. Any custom changes you made in Admin will be lost. Are you sure?')) {
+                // Clear storage
+                localStorage.removeItem(STORAGE_KEYS.PRODUCTS);
+                // Reload to fetch fresh from data.js (handled by app init logic or we force it)
+                // Since this is admin console, we should probably re-seed it immediately for better UX
+                import('./js/data.js').then(module => {
+                    localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(module.products));
+                    loadProducts();
+                    alert('Data reset to defaults! You should see the new Donuts and Cheesecakes now.');
+                });
+            }
         };
 
         // --- Analytics & Customers Logic ---

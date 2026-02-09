@@ -73,4 +73,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     console.log("Catalogue Loaded with " + products.length + " products.");
+
+    // Admin Shortcut: Show "Edit Catalogue" button if logged in as Admin
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUser && currentUser.role === 'admin') {
+        const editBtn = document.createElement('a');
+        editBtn.href = 'admin.html';
+        editBtn.innerHTML = '<i class="fas fa-edit"></i> Edit Catalogue';
+        editBtn.style.cssText = `
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            background: #2D1A19;
+            color: #D4AF37;
+            padding: 12px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s;
+        `;
+        editBtn.onmouseover = () => editBtn.style.transform = 'translateY(-2px)';
+        editBtn.onmouseout = () => editBtn.style.transform = 'translateY(0)';
+        document.body.appendChild(editBtn);
+    }
 });
