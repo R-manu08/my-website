@@ -295,10 +295,17 @@
                                     required>
                             </div>
                         </div>
-                        <div style="margin-top: 1rem;">
-                            <label style="display:block; margin-bottom: 5px;">Flavors (Comma separated)</label>
-                            <input type="text" id="p-flavors" placeholder="e.g. Chocolate, Vanilla, Red Velvet"
-                                style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px;">
+                        <div style="margin-top: 1rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div>
+                                <label style="display:block; margin-bottom: 5px;">Flavors (Comma separated)</label>
+                                <input type="text" id="p-flavors" placeholder="e.g. Chocolate, Vanilla, Red Velvet"
+                                    style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px;">
+                            </div>
+                            <div>
+                                <label style="display:block; margin-bottom: 5px;">Image Path / URL</label>
+                                <input type="text" id="p-image" placeholder="e.g. images/cake.jpg"
+                                    style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px;">
+                            </div>
                         </div>
                         <div style="margin-top: 1rem;">
                             <label style="display:block; margin-bottom: 5px;">Description</label>
@@ -420,6 +427,7 @@
                 document.getElementById('p-unit').value = p.unit;
                 document.getElementById('p-desc').value = p.desc;
                 document.getElementById('p-flavors').value = p.flavors ? p.flavors.join(', ') : '';
+                document.getElementById('p-image').value = p.image || '';
             }
         };
 
@@ -439,7 +447,7 @@
                 unit: document.getElementById('p-unit').value,
                 desc: document.getElementById('p-desc').value,
                 flavors: flavorsArray,
-                image: 'images/chocolate-truffle-cake.jpg' // Default Placeholder for now
+                image: document.getElementById('p-image').value || 'images/chocolate-truffle-cake.jpg'
             };
 
             if (id) {
